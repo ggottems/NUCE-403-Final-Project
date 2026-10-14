@@ -1,4 +1,4 @@
-# nuce403-final-project
+# NUCE-403-Final-Project
 Final project of the NUCE 403 course. The objective is to create a reactor design and perform a neutronics analysis.
 
 The specifications of the reactor are:
