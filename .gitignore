@@ -1,0 +1,4 @@
+.conda-dem-*/
+# DEM snapshot folders and restart checkpoint
+*_snapshots/
+*_restart.npz

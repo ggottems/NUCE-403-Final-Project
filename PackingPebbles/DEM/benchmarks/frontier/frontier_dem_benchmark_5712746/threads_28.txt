@@ -1,0 +1,43 @@
+Synthetic dense-contact benchmark; compilation is excluded. No packing trajectory is generated.
+N=   1000 | threads=1 | 0.0988 ms/step | neighbor rebuild 0.6 ms
+N=  26693 | threads=28 | 1.0646 ms/step | neighbor rebuild 37.5 ms
+N=  53386 | threads=28 | 2.0803 ms/step | neighbor rebuild 78.5 ms
+{
+  "backend": "numba",
+  "threads": 28,
+  "inlets": 8,
+  "measurements": [
+    {
+      "particles": 1000,
+      "contact_candidates": 1929,
+      "step_seconds": 9.881311561912298e-05,
+      "rebuild_seconds": 0.0005710460245609283,
+      "active_contact_threads": 1
+    },
+    {
+      "particles": 26693,
+      "contact_candidates": 77072,
+      "step_seconds": 0.001064621735131368,
+      "rebuild_seconds": 0.03746299201156944,
+      "active_contact_threads": 28
+    },
+    {
+      "particles": 53386,
+      "contact_candidates": 155498,
+      "step_seconds": 0.002080281869857572,
+      "rebuild_seconds": 0.07845740090124309,
+      "active_contact_threads": 28
+    }
+  ],
+  "estimated_pour_core_days": 0.11538855444723065,
+  "nominal_release_steps": 1400,
+  "nominal_total_pour_steps": 9342200,
+  "rebuild_interval_steps": 88.93905919223566,
+  "estimated_pour_hours_force_only": 2.7693253067335353,
+  "estimated_pour_hours_with_rebuilds": 3.882146526419916,
+  "post_pour_stage_hours_upper_bound": 0.8565662609249874,
+  "estimated_total_hours": 4.7387127873449035,
+  "bounded_video_position_MB": 385.019832,
+  "scope": "Synthetic cubic-lattice contacts. The pour integrates the measured step cost over the growing bed for the given inlet count, interval and release velocity, with one neighbor rebuild per skin/2 of travel by the fastest falling pebble. The post-pour term is an upper bound from the settling/hold caps at full N. Excludes final clearance cleanup, snapshots, checkpoints, history sampling and inlet blockage; a full 8-inlet test pour at N=2500 took 1.23x this estimate. Not a completion-time guarantee."
+}
+ESTIMATE threads=28 inlets=8: pour 3.88 h (force only 2.77 h) + post-pour <= 0.86 h = 4.74 h

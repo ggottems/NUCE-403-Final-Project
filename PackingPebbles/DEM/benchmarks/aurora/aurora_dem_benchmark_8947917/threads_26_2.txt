@@ -1,0 +1,43 @@
+Synthetic dense-contact benchmark; compilation is excluded. No packing trajectory is generated.
+N=   1000 | threads=1 | 0.0836 ms/step | neighbor rebuild 0.5 ms
+N=  26693 | threads=26 | 0.9294 ms/step | neighbor rebuild 28.7 ms
+N=  53386 | threads=26 | 1.6143 ms/step | neighbor rebuild 59.6 ms
+{
+  "backend": "numba",
+  "threads": 26,
+  "inlets": 8,
+  "measurements": [
+    {
+      "particles": 1000,
+      "contact_candidates": 1929,
+      "step_seconds": 8.362171499811665e-05,
+      "rebuild_seconds": 0.0004987970005458919,
+      "active_contact_threads": 1
+    },
+    {
+      "particles": 26693,
+      "contact_candidates": 77072,
+      "step_seconds": 0.0009293590449988187,
+      "rebuild_seconds": 0.02865465100057918,
+      "active_contact_threads": 26
+    },
+    {
+      "particles": 53386,
+      "contact_candidates": 155498,
+      "step_seconds": 0.0016143490099966584,
+      "rebuild_seconds": 0.059615918999952555,
+      "active_contact_threads": 26
+    }
+  ],
+  "estimated_pour_core_days": 0.09520629829386003,
+  "nominal_release_steps": 1400,
+  "nominal_total_pour_steps": 9342200,
+  "rebuild_interval_steps": 88.93905919223566,
+  "estimated_pour_hours_force_only": 2.2849511590526403,
+  "estimated_pour_hours_with_rebuilds": 3.1336993043671284,
+  "post_pour_stage_hours_upper_bound": 0.664716121097314,
+  "estimated_total_hours": 3.798415425464442,
+  "bounded_video_position_MB": 385.019832,
+  "scope": "Synthetic cubic-lattice contacts. The pour integrates the measured step cost over the growing bed for the given inlet count, interval and release velocity, with one neighbor rebuild per skin/2 of travel by the fastest falling pebble. The post-pour term is an upper bound from the settling/hold caps at full N. Excludes final clearance cleanup, snapshots, checkpoints, history sampling and inlet blockage; a full 8-inlet test pour at N=2500 took 1.23x this estimate. Not a completion-time guarantee."
+}
+ESTIMATE threads=26 inlets=8: pour 3.13 h (force only 2.28 h) + post-pour <= 0.66 h = 3.80 h

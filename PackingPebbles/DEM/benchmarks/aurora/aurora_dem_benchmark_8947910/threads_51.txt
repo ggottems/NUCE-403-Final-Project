@@ -1,0 +1,43 @@
+Synthetic dense-contact benchmark; compilation is excluded. No packing trajectory is generated.
+N=   1000 | threads=1 | 0.0838 ms/step | neighbor rebuild 0.5 ms
+N=  26693 | threads=51 | 1.1067 ms/step | neighbor rebuild 28.8 ms
+N=  53386 | threads=51 | 2.0869 ms/step | neighbor rebuild 61.1 ms
+{
+  "backend": "numba",
+  "threads": 51,
+  "inlets": 8,
+  "measurements": [
+    {
+      "particles": 1000,
+      "contact_candidates": 1929,
+      "step_seconds": 8.381203864701091e-05,
+      "rebuild_seconds": 0.000498815905302763,
+      "active_contact_threads": 1
+    },
+    {
+      "particles": 26693,
+      "contact_candidates": 77072,
+      "step_seconds": 0.00110667614499107,
+      "rebuild_seconds": 0.02875882713124156,
+      "active_contact_threads": 51
+    },
+    {
+      "particles": 53386,
+      "contact_candidates": 155498,
+      "step_seconds": 0.002086859019473195,
+      "rebuild_seconds": 0.061090143863111734,
+      "active_contact_threads": 51
+    }
+  ],
+  "estimated_pour_core_days": 0.11739192712465343,
+  "nominal_release_steps": 1400,
+  "nominal_total_pour_steps": 9342200,
+  "rebuild_interval_steps": 88.93905919223566,
+  "estimated_pour_hours_force_only": 2.817406250991682,
+  "estimated_pour_hours_with_rebuilds": 3.678400043959858,
+  "post_pour_stage_hours_upper_bound": 0.8592744345313768,
+  "estimated_total_hours": 4.537674478491235,
+  "bounded_video_position_MB": 385.019832,
+  "scope": "Synthetic cubic-lattice contacts. The pour integrates the measured step cost over the growing bed for the given inlet count, interval and release velocity, with one neighbor rebuild per skin/2 of travel by the fastest falling pebble. The post-pour term is an upper bound from the settling/hold caps at full N. Excludes final clearance cleanup, snapshots, checkpoints, history sampling and inlet blockage; a full 8-inlet test pour at N=2500 took 1.23x this estimate. Not a completion-time guarantee."
+}
+ESTIMATE threads=51 inlets=8: pour 3.68 h (force only 2.82 h) + post-pour <= 0.86 h = 4.54 h

@@ -1,0 +1,43 @@
+Synthetic dense-contact benchmark; compilation is excluded. No packing trajectory is generated.
+N=   1000 | threads=1 | 0.0835 ms/step | neighbor rebuild 0.5 ms
+N=  26693 | threads=2 | 1.6808 ms/step | neighbor rebuild 28.6 ms
+N=  53386 | threads=2 | 3.3089 ms/step | neighbor rebuild 59.7 ms
+{
+  "backend": "numba",
+  "threads": 2,
+  "inlets": 8,
+  "measurements": [
+    {
+      "particles": 1000,
+      "contact_candidates": 1929,
+      "step_seconds": 8.352582924999296e-05,
+      "rebuild_seconds": 0.0004993809852749109,
+      "active_contact_threads": 1
+    },
+    {
+      "particles": 26693,
+      "contact_candidates": 77072,
+      "step_seconds": 0.0016807689750567077,
+      "rebuild_seconds": 0.028582059079781175,
+      "active_contact_threads": 2
+    },
+    {
+      "particles": 53386,
+      "contact_candidates": 155498,
+      "step_seconds": 0.0033088696503546086,
+      "rebuild_seconds": 0.05974689801223576,
+      "active_contact_threads": 2
+    }
+  ],
+  "estimated_pour_core_days": 0.1808759284044631,
+  "nominal_release_steps": 1400,
+  "nominal_total_pour_steps": 9342200,
+  "rebuild_interval_steps": 88.93905919223566,
+  "estimated_pour_hours_force_only": 4.341022281707114,
+  "estimated_pour_hours_with_rebuilds": 5.1896909046827036,
+  "post_pour_stage_hours_upper_bound": 1.362443304130929,
+  "estimated_total_hours": 6.552134208813633,
+  "bounded_video_position_MB": 385.019832,
+  "scope": "Synthetic cubic-lattice contacts. The pour integrates the measured step cost over the growing bed for the given inlet count, interval and release velocity, with one neighbor rebuild per skin/2 of travel by the fastest falling pebble. The post-pour term is an upper bound from the settling/hold caps at full N. Excludes final clearance cleanup, snapshots, checkpoints, history sampling and inlet blockage; a full 8-inlet test pour at N=2500 took 1.23x this estimate. Not a completion-time guarantee."
+}
+ESTIMATE threads=2 inlets=8: pour 5.19 h (force only 4.34 h) + post-pour <= 1.36 h = 6.55 h

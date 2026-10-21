@@ -1,0 +1,43 @@
+Synthetic dense-contact benchmark; compilation is excluded. No packing trajectory is generated.
+N=   1000 | threads=1 | 0.0988 ms/step | neighbor rebuild 0.6 ms
+N=  26693 | threads=2 | 2.6751 ms/step | neighbor rebuild 33.1 ms
+N=  53386 | threads=2 | 5.3936 ms/step | neighbor rebuild 68.8 ms
+{
+  "backend": "numba",
+  "threads": 2,
+  "inlets": 8,
+  "measurements": [
+    {
+      "particles": 1000,
+      "contact_candidates": 1929,
+      "step_seconds": 9.883099992293864e-05,
+      "rebuild_seconds": 0.0005743320798501372,
+      "active_contact_threads": 1
+    },
+    {
+      "particles": 26693,
+      "contact_candidates": 77072,
+      "step_seconds": 0.0026751036499626938,
+      "rebuild_seconds": 0.03307627001777291,
+      "active_contact_threads": 2
+    },
+    {
+      "particles": 53386,
+      "contact_candidates": 155498,
+      "step_seconds": 0.005393617499503307,
+      "rebuild_seconds": 0.06876525795087218,
+      "active_contact_threads": 2
+    }
+  ],
+  "estimated_pour_core_days": 0.2903987333668855,
+  "nominal_release_steps": 1400,
+  "nominal_total_pour_steps": 9342200,
+  "rebuild_interval_steps": 88.93905919223566,
+  "estimated_pour_hours_force_only": 6.969569600805252,
+  "estimated_pour_hours_with_rebuilds": 7.948911771266423,
+  "post_pour_stage_hours_upper_bound": 2.220848453928716,
+  "estimated_total_hours": 10.169760225195141,
+  "bounded_video_position_MB": 385.019832,
+  "scope": "Synthetic cubic-lattice contacts. The pour integrates the measured step cost over the growing bed for the given inlet count, interval and release velocity, with one neighbor rebuild per skin/2 of travel by the fastest falling pebble. The post-pour term is an upper bound from the settling/hold caps at full N. Excludes final clearance cleanup, snapshots, checkpoints, history sampling and inlet blockage; a full 8-inlet test pour at N=2500 took 1.23x this estimate. Not a completion-time guarantee."
+}
+ESTIMATE threads=2 inlets=8: pour 7.95 h (force only 6.97 h) + post-pour <= 2.22 h = 10.17 h

@@ -1,0 +1,232 @@
+#!/bin/bash -l
+#PBS -N pebble_dem
+#PBS -l select=1
+#PBS -l place=scatter
+#PBS -l walltime=00:15:00
+#PBS -l filesystems=home:flare
+#PBS -q debug
+#PBS -k doe
+#PBS -j oe
+
+# Benchmark:  qsub -A YOUR_PROJECT aurora_dem.pbs
+# Production: qsub -A YOUR_PROJECT -q capacity -l walltime=12:00:00 -v MODE=run,DEM_THREADS=16 aurora_dem.pbs
+# Continue:   qsub -A YOUR_PROJECT -q capacity -l walltime=12:00:00 -v MODE=resume,DEM_THREADS=16 aurora_dem.pbs
+# The account is supplied at submission rather than hardcoded here.
+# Default case: 8 fixed release points (centre + 7 on a ring of radius 15 at z=65),
+# each pebble pre-accelerated to vz=-3 and released every >=0.35 t* per point.
+# Original single slow inlet: -v DEM_INLET_COUNT=1,DEM_INLET_VZ=0,DEM_POUR_INTERVAL=0.5,...
+
+DEM_JOB_START=$(date +%s)
+set -eo pipefail
+cd "${PBS_O_WORKDIR:?Submit this file with qsub from your Aurora working directory.}"
+
+# No module is loaded: the job runs the environment's own Python directly.
+DEM_ENV="${DEM_ENV:-$PBS_O_WORKDIR/.conda-dem-aurora}"
+if [[ ! -x "$DEM_ENV/bin/python3" ]]; then
+    echo "Missing Python environment: $DEM_ENV. See AURORA_DEM_RUN.md." >&2
+    exit 2
+fi
+export PATH="$DEM_ENV/bin:$PATH"
+set -u
+
+DEM_SCRIPT="${DEM_SCRIPT:-$PBS_O_WORKDIR/pebble_dem_optimized.py}"
+if [[ ! -f "$DEM_SCRIPT" ]]; then
+    echo "Missing solver: $DEM_SCRIPT. Copy it here or pass DEM_SCRIPT with qsub -v." >&2
+    exit 2
+fi
+
+MODE="${MODE:-benchmark}"
+DEM_N="${DEM_N:-53386}"
+DEM_R="${DEM_R:-21}"
+DEM_DP="${DEM_DP:-1}"
+DEM_THREADS="${DEM_THREADS:-16}"
+DEM_PREFIX="${DEM_PREFIX:-pb50k_8inlet}"
+DEM_CHECKPOINT="${DEM_CHECKPOINT:-${DEM_PREFIX}_restart.npz}"
+DEM_INLET_Z="${DEM_INLET_Z:-65}"
+DEM_INLET_COUNT="${DEM_INLET_COUNT:-8}"     # Centre + (count-1) points on a ring.
+DEM_INLET_RADIUS="${DEM_INLET_RADIUS:-15}"  # Ring radius, input length units.
+DEM_INLET_VZ="${DEM_INLET_VZ:--3}"          # Release velocity; terminal speed is 1/drag = 3.33.
+DEM_POUR_INTERVAL="${DEM_POUR_INTERVAL:-0.35}"
+DEM_INLETS="${DEM_INLETS:-}"                # Optional explicit list "x y z; x y z; ..." (overrides the ring).
+DEM_STOP_MARGIN="${DEM_STOP_MARGIN:-180}"   # Seconds before the walltime to send SIGINT; 0 disables.
+read -r -a DEM_EXTRA <<< "${DEM_EXTRA_ARGS:-}"  # Optional extra solver flags, e.g. "--max-settle-time 300".
+
+# An Aurora node has 2 sockets x 52 cores x 2 hardware threads. Cores 0 and 52
+# (and their hyperthreads 104 and 156) are reserved for the OS and are outside
+# the job's cpuset, which leaves 102 physical cores. Each Numba thread gets one
+# physical core, filling socket 0 (cores 1-51) before socket 1 (cores 53-103);
+# the second hardware threads stay idle. OpenMP binds the main thread to core 1,
+# so arrays it allocates live in socket 0 memory.
+DEM_CORES=($(seq 1 51) $(seq 53 103))
+DEM_MAX_THREADS=${#DEM_CORES[@]}
+export NUMBA_THREADING_LAYER=omp
+export OMP_PROC_BIND=close
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export BLIS_NUM_THREADS=1
+
+# Restrict the next Python process to the first $1 cores, one OpenMP place per core.
+# The default Aurora modules put oneAPI TBB and GCC runtimes on LD_LIBRARY_PATH;
+# the solver runs with only the environment's own libraries.
+dem_bind() {
+    local cpus places
+    cpus=$(IFS=,; echo "${DEM_CORES[*]:0:$1}")
+    places=$(printf '{%s},' "${DEM_CORES[@]:0:$1}")
+    export NUMBA_NUM_THREADS="$1" OMP_NUM_THREADS="$1" OMP_PLACES="${places%,}"
+    DEM_LAUNCH=(env -u LD_LIBRARY_PATH taskset -c "$cpus" "$DEM_ENV/bin/python3" -u "$DEM_SCRIPT")
+    echo "Threads: $1 on physical cores $cpus of $(hostname)"
+}
+
+# PBS has no equivalent of Slurm's --signal=INT@180, so the job sends SIGINT itself
+# DEM_STOP_MARGIN seconds before its walltime; the solver then checkpoints and
+# pauses. A SIGINT sent to a backgrounded mpiexec did not reach Python on Aurora,
+# so Python is started directly, as a simple command: env and taskset exec into
+# it and $! is the solver's own PID.
+dem_stop_time() {
+    local info walltime started h m s
+    info=$(qstat -f "$PBS_JOBID" 2>/dev/null) || return 0
+    walltime=$(awk -F' = ' '/Resource_List.walltime/ {print $2}' <<< "$info")
+    started=$(awk -F' = ' '$1 ~ /^ *stime$/ {print $2}' <<< "$info")
+    [[ "$walltime" =~ ^[0-9]+:[0-9]+:[0-9]+$ ]] || return 0
+    if [[ -z "$started" ]] || ! started=$(date -d "$started" +%s 2>/dev/null); then
+        started=$DEM_JOB_START
+    fi
+    IFS=: read -r h m s <<< "$walltime"
+    echo $((started + 10#$h*3600 + 10#$m*60 + 10#$s - DEM_STOP_MARGIN))
+}
+
+dem_stop_timer() {
+    while kill -0 "$1" 2>/dev/null; do
+        if (($(date +%s) >= DEM_STOP_AT)); then
+            echo "$(date '+%F %T') Sending SIGINT to solver PID $1, $DEM_STOP_MARGIN s before the walltime."
+            kill -INT "$1"
+            return 0
+        fi
+        sleep 5
+    done
+}
+
+dem_run() {
+    local pid timer="" status=0
+    "${DEM_LAUNCH[@]}" "$@" &
+    pid=$!
+    if [[ -n "$DEM_STOP_AT" ]]; then
+        dem_stop_timer "$pid" &
+        timer=$!
+    fi
+    wait "$pid" || status=$?
+    if [[ -n "$timer" ]]; then
+        kill "$timer" 2>/dev/null || true
+    fi
+    return "$status"
+}
+
+valid_threads() {
+    if [[ ! "$1" =~ ^[0-9]+$ ]] || ((10#$1 < 1 || 10#$1 > DEM_MAX_THREADS)); then
+        echo "Thread count must be an integer from 1 to $DEM_MAX_THREADS: $1" >&2
+        exit 2
+    fi
+}
+
+INLET_ARGS=()
+if [[ -n "$DEM_INLETS" ]]; then
+    IFS=';' read -r -a DEM_POINTS <<< "$DEM_INLETS"
+    for DEM_POINT in "${DEM_POINTS[@]}"; do
+        read -r -a DEM_XYZ <<< "$DEM_POINT"
+        if ((${#DEM_XYZ[@]} != 3)); then
+            echo "Each DEM_INLETS entry needs X Y Z: '$DEM_POINT'" >&2
+            exit 2
+        fi
+        INLET_ARGS+=(--inlet "${DEM_XYZ[@]}")
+    done
+else
+    if [[ ! "$DEM_INLET_COUNT" =~ ^[1-9][0-9]*$ ]]; then
+        echo "DEM_INLET_COUNT must be a positive integer: $DEM_INLET_COUNT" >&2
+        exit 2
+    fi
+    while read -r DEM_X DEM_Y; do
+        INLET_ARGS+=(--inlet "$DEM_X" "$DEM_Y" "$DEM_INLET_Z")
+    done < <(awk -v n="$DEM_INLET_COUNT" -v r="$DEM_INLET_RADIUS" 'BEGIN {
+        print "0 0"; pi = atan2(0, -1)
+        for (k = 0; k < n-1; k++) printf "%.6f %.6f\n", r*cos(2*pi*k/(n-1)), r*sin(2*pi*k/(n-1)) }')
+fi
+FEED_ARGS=(--inlet-vz "$DEM_INLET_VZ" --pour-interval "$DEM_POUR_INTERVAL" "${INLET_ARGS[@]}")
+
+echo "Job=${PBS_JOBID:-unknown}; mode=$MODE; directory=$PBS_O_WORKDIR"
+echo "Python: $DEM_ENV/bin/python3"
+echo "One Python process; CPU threads; snapshots and checkpoints enabled in run mode."
+echo "Feed: ${FEED_ARGS[*]}"
+
+case "$MODE" in
+    benchmark)
+        DEM_BENCH_DIR="aurora_dem_benchmark_${PBS_JOBID%%.*}"
+        mkdir -p "$DEM_BENCH_DIR"
+        read -r -a DEM_SWEEP <<< "${DEM_THREAD_COUNTS:-1 2 4 8 16 26 51 102}"
+        if ((${#DEM_SWEEP[@]} == 0)); then
+            echo "DEM_THREAD_COUNTS must contain at least one integer." >&2
+            exit 2
+        fi
+        for DEM_T in "${DEM_SWEEP[@]}"; do
+            valid_threads "$DEM_T"
+            DEM_LOG="$DEM_BENCH_DIR/threads_${DEM_T}.txt"
+            DEM_REPEAT=1
+            while [[ -e "$DEM_LOG" ]]; do  # A repeated count gets its own log.
+                DEM_REPEAT=$((DEM_REPEAT + 1))
+                DEM_LOG="$DEM_BENCH_DIR/threads_${DEM_T}_${DEM_REPEAT}.txt"
+            done
+            echo "Benchmarking $DEM_T threads"
+            dem_bind "$DEM_T"
+            "${DEM_LAUNCH[@]}" --benchmark --N "$DEM_N" --R "$DEM_R" --dp "$DEM_DP" \
+                --backend numba --threads "$DEM_T" "${FEED_ARGS[@]}" "${DEM_EXTRA[@]}" \
+                2>&1 | tee "$DEM_LOG"
+        done
+        echo "Benchmark logs: $DEM_BENCH_DIR"
+        grep -h "^ESTIMATE" "$DEM_BENCH_DIR"/threads_*.txt || true
+        ;;
+    run|resume)
+        valid_threads "$DEM_THREADS"
+        if [[ ! "$DEM_STOP_MARGIN" =~ ^[0-9]+$ ]]; then
+            echo "DEM_STOP_MARGIN must be a whole number of seconds: $DEM_STOP_MARGIN" >&2
+            exit 2
+        fi
+        DEM_STOP_AT=""
+        if ((10#$DEM_STOP_MARGIN > 0)); then
+            DEM_STOP_AT=$(dem_stop_time)
+            if [[ -n "$DEM_STOP_AT" ]]; then
+                echo "SIGINT (checkpoint and pause) at $(date -d "@$DEM_STOP_AT" '+%F %T'), $DEM_STOP_MARGIN s before the walltime."
+            else
+                echo "Could not read the walltime from qstat; only periodic checkpoints protect this run." >&2
+            fi
+        fi
+        dem_bind "$DEM_THREADS"
+        if [[ "$MODE" == run ]]; then
+            if [[ -e "$DEM_CHECKPOINT" || -e "${DEM_PREFIX}.dat" ]]; then
+                echo "Output/checkpoint already exists. Use MODE=resume or choose a new DEM_PREFIX and DEM_CHECKPOINT." >&2
+                exit 2
+            fi
+            dem_run --N "$DEM_N" --R "$DEM_R" --dp "$DEM_DP" \
+                --backend numba --threads "$DEM_THREADS" "${FEED_ARGS[@]}" \
+                --load-fraction 0.2 --clearance 1e-5 \
+                --snapshots "${DEM_PREFIX}_snapshots" --snapshot-every 1000 \
+                --checkpoint "$DEM_CHECKPOINT" --checkpoint-interval 300 \
+                --history-interval 5 --log-file "${DEM_PREFIX}.log" -o "${DEM_PREFIX}.dat" "${DEM_EXTRA[@]}"
+        else
+            if [[ ! -f "$DEM_CHECKPOINT" ]]; then
+                echo "Missing checkpoint: $DEM_CHECKPOINT" >&2
+                exit 2
+            fi
+            dem_run --resume "$DEM_CHECKPOINT" --backend numba --threads "$DEM_THREADS" \
+                --checkpoint "$DEM_CHECKPOINT" --snapshots "${DEM_PREFIX}_snapshots" \
+                --log-file "${DEM_PREFIX}.log" -o "${DEM_PREFIX}.dat" "${DEM_EXTRA[@]}"
+        fi
+        if [[ -f "${DEM_PREFIX}.dat" ]]; then
+            echo "Run complete: ${DEM_PREFIX}.dat"
+        else
+            echo "Solver stopped before completion; continue with MODE=resume (see AURORA_DEM_RUN.md)."
+        fi
+        ;;
+    *)
+        echo "MODE must be benchmark, run, or resume." >&2
+        exit 2
+        ;;
+esac

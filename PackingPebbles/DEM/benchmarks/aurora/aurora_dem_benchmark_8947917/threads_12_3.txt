@@ -1,0 +1,43 @@
+Synthetic dense-contact benchmark; compilation is excluded. No packing trajectory is generated.
+N=   1000 | threads=1 | 0.0838 ms/step | neighbor rebuild 0.5 ms
+N=  26693 | threads=12 | 0.8902 ms/step | neighbor rebuild 28.8 ms
+N=  53386 | threads=12 | 1.4988 ms/step | neighbor rebuild 62.0 ms
+{
+  "backend": "numba",
+  "threads": 12,
+  "inlets": 8,
+  "measurements": [
+    {
+      "particles": 1000,
+      "contact_candidates": 1929,
+      "step_seconds": 8.376741499432683e-05,
+      "rebuild_seconds": 0.0004933170002914267,
+      "active_contact_threads": 1
+    },
+    {
+      "particles": 26693,
+      "contact_candidates": 77072,
+      "step_seconds": 0.0008901989849982783,
+      "rebuild_seconds": 0.02878020100069989,
+      "active_contact_threads": 12
+    },
+    {
+      "particles": 53386,
+      "contact_candidates": 155498,
+      "step_seconds": 0.0014988484150035219,
+      "rebuild_seconds": 0.06196983399968303,
+      "active_contact_threads": 12
+    }
+  ],
+  "estimated_pour_core_days": 0.090010371096596,
+  "nominal_release_steps": 1400,
+  "nominal_total_pour_steps": 9342200,
+  "rebuild_interval_steps": 88.93905919223566,
+  "estimated_pour_hours_force_only": 2.160248906318304,
+  "estimated_pour_hours_with_rebuilds": 3.0279256971396626,
+  "post_pour_stage_hours_upper_bound": 0.6171581847323465,
+  "estimated_total_hours": 3.645083881872009,
+  "bounded_video_position_MB": 385.019832,
+  "scope": "Synthetic cubic-lattice contacts. The pour integrates the measured step cost over the growing bed for the given inlet count, interval and release velocity, with one neighbor rebuild per skin/2 of travel by the fastest falling pebble. The post-pour term is an upper bound from the settling/hold caps at full N. Excludes final clearance cleanup, snapshots, checkpoints, history sampling and inlet blockage; a full 8-inlet test pour at N=2500 took 1.23x this estimate. Not a completion-time guarantee."
+}
+ESTIMATE threads=12 inlets=8: pour 3.03 h (force only 2.16 h) + post-pour <= 0.62 h = 3.65 h

@@ -1,0 +1,43 @@
+Synthetic dense-contact benchmark; compilation is excluded. No packing trajectory is generated.
+N=   1000 | threads=1 | 0.0990 ms/step | neighbor rebuild 0.6 ms
+N=  26693 | threads=4 | 1.7767 ms/step | neighbor rebuild 33.4 ms
+N=  53386 | threads=4 | 3.5932 ms/step | neighbor rebuild 69.0 ms
+{
+  "backend": "numba",
+  "threads": 4,
+  "inlets": 8,
+  "measurements": [
+    {
+      "particles": 1000,
+      "contact_candidates": 1929,
+      "step_seconds": 9.89913597004488e-05,
+      "rebuild_seconds": 0.0005706950323656201,
+      "active_contact_threads": 1
+    },
+    {
+      "particles": 26693,
+      "contact_candidates": 77072,
+      "step_seconds": 0.0017767464648932218,
+      "rebuild_seconds": 0.033435825956985354,
+      "active_contact_threads": 4
+    },
+    {
+      "particles": 53386,
+      "contact_candidates": 155498,
+      "step_seconds": 0.003593182669719681,
+      "rebuild_seconds": 0.06897100701462477,
+      "active_contact_threads": 4
+    }
+  ],
+  "estimated_pour_core_days": 0.19407169917244976,
+  "nominal_release_steps": 1400,
+  "nominal_total_pour_steps": 9342200,
+  "rebuild_interval_steps": 88.93905919223566,
+  "estimated_pour_hours_force_only": 4.657720780138795,
+  "estimated_pour_hours_with_rebuilds": 5.643684786915861,
+  "post_pour_stage_hours_upper_bound": 1.4795105840310836,
+  "estimated_total_hours": 7.123195370946943,
+  "bounded_video_position_MB": 385.019832,
+  "scope": "Synthetic cubic-lattice contacts. The pour integrates the measured step cost over the growing bed for the given inlet count, interval and release velocity, with one neighbor rebuild per skin/2 of travel by the fastest falling pebble. The post-pour term is an upper bound from the settling/hold caps at full N. Excludes final clearance cleanup, snapshots, checkpoints, history sampling and inlet blockage; a full 8-inlet test pour at N=2500 took 1.23x this estimate. Not a completion-time guarantee."
+}
+ESTIMATE threads=4 inlets=8: pour 5.64 h (force only 4.66 h) + post-pour <= 1.48 h = 7.12 h
