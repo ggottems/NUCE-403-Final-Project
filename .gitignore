@@ -2,3 +2,9 @@
 # DEM snapshot folders and restart checkpoint
 *_snapshots/
 *_restart.npz
+# Run byproducts and old code kept only on Aurora
+PackingPebbles/DEM/pb50k_8inlet.json
+PackingPebbles/DEM/pb50k_8inlet_history.csv
+PackingPebbles/DEM/pb50k_8inlet_releases.csv
+PackingPebbles/DEM/*.bak-*
+PackingPebbles/dropNroll/old/
