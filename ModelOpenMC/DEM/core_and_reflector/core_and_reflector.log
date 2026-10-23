@@ -1,0 +1,355 @@
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2025 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.15.2
+     Commit Hash | e23760b0264c66fb7bb373aa0596801e5209d920
+       Date/Time | 2026-10-22 00:46:31
+   MPI Processes | 1
+  OpenMP Threads | 6
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading U234 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/U234.h5
+ Reading U235 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/U235.h5
+ Reading U238 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/U238.h5
+ Reading U236 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/U236.h5
+ Reading O16 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/O16.h5
+ Reading O17 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/O17.h5
+ Reading O18 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/O18.h5
+ Reading C12 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/C12.h5
+ Reading C13 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/C13.h5
+ Reading Si28 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Si28.h5
+ Reading Si29 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Si29.h5
+ Reading Si30 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Si30.h5
+ Reading Fe54 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Fe54.h5
+ Reading Fe56 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Fe56.h5
+ Reading Fe57 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Fe57.h5
+ Reading Fe58 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Fe58.h5
+ Reading Cr50 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Cr50.h5
+ Reading Cr52 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Cr52.h5
+ Reading Cr53 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Cr53.h5
+ Reading Cr54 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Cr54.h5
+ Reading Ni58 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Ni58.h5
+ Reading Ni60 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Ni60.h5
+ Reading Ni61 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Ni61.h5
+ Reading Ni62 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Ni62.h5
+ Reading Ni64 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Ni64.h5
+ Reading Mo92 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mo92.h5
+ Reading Mo94 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mo94.h5
+ Reading Mo95 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mo95.h5
+ Reading Mo96 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mo96.h5
+ Reading Mo97 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mo97.h5
+ Reading Mo98 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mo98.h5
+ Reading Mo100 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mo100.h5
+ Reading Mn55 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Mn55.h5
+ Reading P31 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/P31.h5
+ Reading S32 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/S32.h5
+ Reading S33 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/S33.h5
+ Reading S34 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/S34.h5
+ Reading S36 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/S36.h5
+ Reading Li6 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Li6.h5
+ Reading Li7 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Li7.h5
+ Reading Be9 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/Be9.h5
+ Reading F19 from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/F19.h5
+ Reading c_Graphite from
+ /mnt/c/Users/guigo/OneDrive/Documentos/PennState/OpenMC/endfb80/endfb-viii.0-hdf
+ 5/neutron/c_Graphite.h5
+ Minimum neutron data temperature: 250 K
+ Maximum neutron data temperature: 2500 K
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for O17
+ Initializing source particles...
+
+ ====================>     K EIGENVALUE SIMULATION     <====================
+
+  Bat./Gen.      k       Entropy         Average k 
+  =========   ========   ========   ====================
+        1/1    1.13347   11.68599
+        2/1    1.13510   11.66468
+        3/1    1.15729   11.64271
+        4/1    1.15910   11.63606
+        5/1    1.16220   11.62561
+        6/1    1.15245   11.62135
+        7/1    1.15959   11.61038
+        8/1    1.15800   11.60524
+        9/1    1.16416   11.60228
+       10/1    1.17008   11.60139
+       11/1    1.17048   11.60049
+       12/1    1.17265   11.60177
+       13/1    1.16870   11.60084
+       14/1    1.16557   11.59813
+       15/1    1.17444   11.60011
+       16/1    1.16428   11.60150
+       17/1    1.17401   11.60177
+       18/1    1.17276   11.59928
+       19/1    1.16595   11.59932
+       20/1    1.17221   11.59645
+       21/1    1.16715   11.59914
+       22/1    1.16202   11.59738
+       23/1    1.17426   11.60021
+       24/1    1.17113   11.59774
+       25/1    1.16710   11.60073
+       26/1    1.16929   11.60016
+       27/1    1.17243   11.59631
+       28/1    1.16167   11.59479
+       29/1    1.16502   11.60145
+       30/1    1.16320   11.60153
+       31/1    1.16159   11.59368
+       32/1    1.17604   11.59954
+       33/1    1.16774   11.59930
+       34/1    1.16779   11.60315
+       35/1    1.16159   11.60265
+       36/1    1.16298   11.60488
+       37/1    1.16905   11.60595
+       38/1    1.17021   11.59926
+       39/1    1.16621   11.60479
+       40/1    1.15705   11.60081
+       41/1    1.16824   11.60299
+       42/1    1.16578   11.60345
+       43/1    1.17120   11.60139
+       44/1    1.17947   11.60137
+       45/1    1.16735   11.60041
+       46/1    1.16341   11.60174
+       47/1    1.16454   11.60227
+       48/1    1.16891   11.59531
+       49/1    1.16633   11.59927
+       50/1    1.17707   11.59863
+       51/1    1.16762   11.60133
+       52/1    1.16219   11.59846    1.16490 +/- 0.00272
+       53/1    1.17138   11.59737    1.16706 +/- 0.00267
+       54/1    1.17359   11.59696    1.16870 +/- 0.00250
+       55/1    1.16451   11.60104    1.16786 +/- 0.00211
+       56/1    1.16705   11.60669    1.16772 +/- 0.00172
+       57/1    1.16571   11.60089    1.16744 +/- 0.00149
+       58/1    1.17283   11.60156    1.16811 +/- 0.00145
+       59/1    1.17125   11.59974    1.16846 +/- 0.00133
+       60/1    1.16707   11.59394    1.16832 +/- 0.00120
+       61/1    1.17553   11.60176    1.16898 +/- 0.00126
+       62/1    1.16209   11.60694    1.16840 +/- 0.00129
+       63/1    1.16523   11.60146    1.16816 +/- 0.00121
+       64/1    1.15809   11.60197    1.16744 +/- 0.00133
+       65/1    1.16995   11.60602    1.16761 +/- 0.00125
+       66/1    1.15815   11.60332    1.16702 +/- 0.00131
+       67/1    1.16284   11.60174    1.16677 +/- 0.00126
+       68/1    1.16989   11.59752    1.16694 +/- 0.00120
+       69/1    1.17270   11.60461    1.16725 +/- 0.00117
+       70/1    1.16261   11.60032    1.16701 +/- 0.00114
+       71/1    1.16364   11.60526    1.16685 +/- 0.00109
+       72/1    1.16357   11.59901    1.16670 +/- 0.00105
+       73/1    1.16855   11.60392    1.16678 +/- 0.00101
+       74/1    1.16877   11.60048    1.16687 +/- 0.00097
+       75/1    1.16753   11.60659    1.16689 +/- 0.00093
+       76/1    1.17325   11.60036    1.16714 +/- 0.00093
+       77/1    1.16352   11.59752    1.16700 +/- 0.00090
+       78/1    1.16580   11.60172    1.16696 +/- 0.00087
+       79/1    1.16878   11.60127    1.16702 +/- 0.00084
+       80/1    1.16258   11.60450    1.16688 +/- 0.00083
+       81/1    1.17158   11.59798    1.16703 +/- 0.00081
+       82/1    1.17417   11.59482    1.16725 +/- 0.00082
+       83/1    1.17327   11.59982    1.16743 +/- 0.00081
+       84/1    1.17256   11.59811    1.16758 +/- 0.00080
+       85/1    1.15737   11.60281    1.16729 +/- 0.00083
+       86/1    1.15550   11.60428    1.16696 +/- 0.00087
+       87/1    1.16826   11.60462    1.16700 +/- 0.00085
+       88/1    1.16463   11.60561    1.16694 +/- 0.00083
+       89/1    1.16663   11.60107    1.16693 +/- 0.00081
+       90/1    1.17503   11.60189    1.16713 +/- 0.00081
+       91/1    1.16813   11.60131    1.16716 +/- 0.00079
+       92/1    1.16577   11.60077    1.16712 +/- 0.00078
+       93/1    1.16529   11.59926    1.16708 +/- 0.00076
+       94/1    1.17509   11.59853    1.16726 +/- 0.00076
+       95/1    1.16515   11.60174    1.16722 +/- 0.00075
+       96/1    1.16916   11.59884    1.16726 +/- 0.00073
+       97/1    1.16532   11.60151    1.16722 +/- 0.00072
+       98/1    1.16226   11.60495    1.16711 +/- 0.00071
+       99/1    1.18016   11.60184    1.16738 +/- 0.00074
+      100/1    1.16250   11.60261    1.16728 +/- 0.00074
+      101/1    1.16508   11.60176    1.16724 +/- 0.00072
+      102/1    1.17048   11.60066    1.16730 +/- 0.00071
+      103/1    1.16332   11.59931    1.16723 +/- 0.00070
+      104/1    1.16748   11.60036    1.16723 +/- 0.00069
+      105/1    1.15789   11.60005    1.16706 +/- 0.00070
+      106/1    1.16046   11.59579    1.16694 +/- 0.00069
+      107/1    1.16401   11.59671    1.16689 +/- 0.00068
+      108/1    1.16437   11.59880    1.16685 +/- 0.00067
+      109/1    1.16357   11.60176    1.16679 +/- 0.00066
+      110/1    1.16774   11.59524    1.16681 +/- 0.00065
+      111/1    1.16089   11.59940    1.16671 +/- 0.00065
+      112/1    1.16016   11.59985    1.16661 +/- 0.00065
+      113/1    1.17431   11.59811    1.16673 +/- 0.00065
+      114/1    1.16875   11.60153    1.16676 +/- 0.00064
+      115/1    1.16695   11.60034    1.16676 +/- 0.00063
+      116/1    1.16472   11.60127    1.16673 +/- 0.00062
+      117/1    1.16581   11.60355    1.16672 +/- 0.00061
+      118/1    1.15835   11.59864    1.16659 +/- 0.00062
+      119/1    1.16487   11.59951    1.16657 +/- 0.00061
+      120/1    1.17207   11.59798    1.16665 +/- 0.00060
+      121/1    1.16580   11.60181    1.16664 +/- 0.00059
+      122/1    1.17305   11.59897    1.16673 +/- 0.00059
+      123/1    1.17145   11.59617    1.16679 +/- 0.00059
+      124/1    1.16964   11.60111    1.16683 +/- 0.00058
+      125/1    1.16947   11.59696    1.16686 +/- 0.00058
+      126/1    1.17485   11.60187    1.16697 +/- 0.00058
+      127/1    1.17045   11.59578    1.16701 +/- 0.00057
+      128/1    1.16465   11.60102    1.16698 +/- 0.00056
+      129/1    1.16497   11.59895    1.16696 +/- 0.00056
+      130/1    1.16789   11.59720    1.16697 +/- 0.00055
+      131/1    1.16477   11.60081    1.16694 +/- 0.00055
+      132/1    1.17195   11.59534    1.16700 +/- 0.00054
+      133/1    1.17231   11.59854    1.16707 +/- 0.00054
+      134/1    1.17171   11.59504    1.16712 +/- 0.00054
+      135/1    1.16633   11.59644    1.16711 +/- 0.00053
+      136/1    1.16461   11.60143    1.16708 +/- 0.00052
+      137/1    1.17048   11.60326    1.16712 +/- 0.00052
+      138/1    1.16081   11.60533    1.16705 +/- 0.00052
+      139/1    1.16944   11.60797    1.16708 +/- 0.00051
+      140/1    1.17414   11.60449    1.16716 +/- 0.00051
+      141/1    1.16553   11.60119    1.16714 +/- 0.00051
+      142/1    1.17037   11.60227    1.16717 +/- 0.00050
+      143/1    1.16154   11.60205    1.16711 +/- 0.00050
+      144/1    1.16279   11.60386    1.16707 +/- 0.00050
+      145/1    1.15618   11.60175    1.16695 +/- 0.00051
+      146/1    1.17038   11.60492    1.16699 +/- 0.00050
+      147/1    1.17021   11.60006    1.16702 +/- 0.00050
+      148/1    1.16759   11.60429    1.16703 +/- 0.00049
+      149/1    1.15972   11.60380    1.16695 +/- 0.00049
+      150/1    1.17416   11.60149    1.16703 +/- 0.00049
+ Creating state point statepoint.150.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 9.2722e+02 seconds
+   Reading cross sections          = 1.1232e+02 seconds
+ Total time in simulation          = 1.3743e+03 seconds
+   Time in transport only          = 1.3677e+03 seconds
+   Time in inactive batches        = 4.7887e+02 seconds
+   Time in active batches          = 8.9540e+02 seconds
+   Time synchronizing fission bank = 2.0360e+00 seconds
+     Sampling source sites         = 1.7403e+00 seconds
+     SEND/RECV source sites        = 2.2034e-01 seconds
+   Time accumulating tallies       = 3.6501e-04 seconds
+   Time writing statepoints        = 2.4304e-02 seconds
+ Total time for finalization       = 2.2303e-05 seconds
+ Total time elapsed                = 2.3027e+03 seconds
+ Calculation Rate (inactive)       = 10441.3 particles/second
+ Calculation Rate (active)         = 11168.2 particles/second
+
+ ============================>     RESULTS     <============================
+
+ k-effective (Collision)     = 1.16700 +/- 0.00050
+ k-effective (Track-length)  = 1.16703 +/- 0.00049
+ k-effective (Absorption)    = 1.16698 +/- 0.00033
+ Combined k-effective        = 1.16699 +/- 0.00033
+ Leakage Fraction            = 0.04583 +/- 0.00008
